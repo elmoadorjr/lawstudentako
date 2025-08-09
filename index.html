@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Law Student Ako - Law Student Resources</title>
+<title>Law Student Ako - Study Hub</title>
 <style>
   /* Reset */
   * {
@@ -16,39 +16,36 @@
     background: linear-gradient(135deg, #0B2545 0%, #162F6C 100%);
     color: #E0E6F1;
     min-height: 100vh;
+    padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    padding: 2rem 1rem;
   }
   header {
     width: 100%;
     background: rgba(9, 32, 63, 0.85);
     backdrop-filter: saturate(180%) blur(10px);
     border-bottom: 1px solid #183A72;
-    position: sticky;
-    top: 0;
-    z-index: 100;
     padding: 1rem 2rem;
-    display: flex;
-    justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  }
-  .logo {
+    text-align: center;
     font-weight: 800;
     font-size: 1.75rem;
     color: #82A9D1;
     letter-spacing: 1.5px;
-    text-shadow: 0 0 10px rgba(130,169,209,0.6);
+    margin-bottom: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   main {
-    margin-top: 3rem;
+    width: 100%;
+    max-width: 900px;
+  }
+  /* Button grid */
+  #subject-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1.75rem;
-    width: 100%;
-    max-width: 900px;
   }
   .btn {
     background: linear-gradient(145deg, #2A5AAF, #1B3A6E);
@@ -63,7 +60,7 @@
       4px 4px 8px rgba(0, 0, 0, 0.6),
       inset -2px -2px 5px rgba(255, 255, 255, 0.1),
       inset 2px 2px 5px rgba(0, 0, 0, 0.4);
-    transition: 
+    transition:
       background 0.3s ease,
       box-shadow 0.3s ease,
       transform 0.15s ease;
@@ -90,8 +87,49 @@
       inset -3px -3px 7px rgba(255, 255, 255, 0.05),
       inset 3px 3px 7px rgba(0, 0, 0, 0.6);
   }
+  /* Content area */
+  #subject-content {
+    background: #143A74;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+    color: #E0E6F1;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
+  #subject-content h1 {
+    margin-bottom: 1rem;
+    font-weight: 800;
+  }
+  #subject-content h2 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  #subject-content a {
+    color: #82A9D1;
+    text-decoration: none;
+  }
+  #subject-content a:hover {
+    text-decoration: underline;
+  }
+  /* Back button */
+  #back-btn {
+    margin-bottom: 1.5rem;
+    background: #2854A3;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    color: #E0E6F1;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+  #back-btn:hover {
+    background: #1B3A6E;
+  }
   @media (max-width: 420px) {
-    main {
+    #subject-list {
       grid-template-columns: 1fr;
     }
     .btn {
@@ -104,18 +142,169 @@
 </head>
 <body>
 
-<header>
-  <div class="logo">Law Student Ako</div>
-</header>
+<header>Law Student Ako</header>
 
 <main>
-  <button class="btn" onclick="alert('Philosophy of Law page coming soon')">Philosophy of Law</button>
-  <button class="btn" onclick="alert('Basic Legal and Judicial Ethics page coming soon')">Basic Legal and Judicial Ethics</button>
-  <button class="btn" onclick="alert('Criminal Law I page coming soon')">Criminal Law I</button>
-  <button class="btn" onclick="alert('Constitutional Law I page coming soon')">Constitutional Law I</button>
-  <button class="btn" onclick="alert('Criminal Procedure page coming soon')">Criminal Procedure</button>
-  <button class="btn" onclick="alert('Statutory Construction page coming soon')">Statutory Construction</button>
+  <!-- Subject Buttons -->
+  <div id="subject-list">
+    <button class="btn" data-subject="philosophyOfLaw">Philosophy of Law</button>
+    <button class="btn" data-subject="legalEthics">Basic Legal and Judicial Ethics</button>
+    <button class="btn" data-subject="criminalLawI">Criminal Law I</button>
+    <button class="btn" data-subject="constitutionalLawI">Constitutional Law I</button>
+    <button class="btn" data-subject="criminalProcedure">Criminal Procedure</button>
+    <button class="btn" data-subject="statutoryConstruction">Statutory Construction</button>
+  </div>
+
+  <!-- Dynamic Subject Content -->
+  <section id="subject-content" style="display:none;">
+    <button id="back-btn">← Back to Subjects</button>
+    <div id="content-inner"></div>
+  </section>
 </main>
+
+<script>
+  const subjects = {
+    philosophyOfLaw: {
+      title: "Philosophy of Law",
+      content: `
+        <p>Welcome to the Philosophy of Law subject page. Here, you can add your notes, summaries, important concepts, case law references, and study materials.</p>
+        <h2>Overview</h2>
+        <p>Put your subject overview here.</p>
+        <h2>Key Concepts</h2>
+        <ul>
+          <li>Jurisprudence</li>
+          <li>Legal Positivism</li>
+          <li>Natural Law</li>
+          <li>Legal Realism</li>
+        </ul>
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="https://example.com/philosophy-of-law-textbook.pdf" target="_blank" rel="noopener">Philosophy of Law Textbook (PDF)</a></li>
+          <li><a href="https://example.com/important-cases.html" target="_blank" rel="noopener">Important Cases</a></li>
+        </ul>
+      `
+    },
+    legalEthics: {
+      title: "Basic Legal and Judicial Ethics",
+      content: `
+        <p>Ethics is the backbone of the legal profession.</p>
+        <h2>Core Principles</h2>
+        <ul>
+          <li>Integrity</li>
+          <li>Confidentiality</li>
+          <li>Professionalism</li>
+          <li>Accountability</li>
+        </ul>
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener">Code of Professional Responsibility</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Judicial Ethics Guidelines</a></li>
+        </ul>
+      `
+    },
+    criminalLawI: {
+      title: "Criminal Law I",
+      content: `
+        <p>This covers crimes, penalties, and procedural rules.</p>
+        <h2>Topics</h2>
+        <ul>
+          <li>Felonies and Misdemeanors</li>
+          <li>Justifying Circumstances</li>
+          <li>Exempting Circumstances</li>
+          <li>Criminal Liability</li>
+        </ul>
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener">Revised Penal Code</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Jurisprudence Summaries</a></li>
+        </ul>
+      `
+    },
+    constitutionalLawI: {
+      title: "Constitutional Law I",
+      content: `
+        <p>Explore the 1987 Constitution and landmark cases.</p>
+        <h2>Topics</h2>
+        <ul>
+          <li>Fundamental Rights</li>
+          <li>Separation of Powers</li>
+          <li>Judicial Review</li>
+          <li>Constitutional Amendments</li>
+        </ul>
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener">1987 Philippine Constitution</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Landmark Cases</a></li>
+        </ul>
+      `
+    },
+    criminalProcedure: {
+      title: "Criminal Procedure",
+      content: `
+        <p>Procedures to enforce criminal laws.</p>
+        <h2>Topics</h2>
+        <ul>
+          <li>Investigation</li>
+          <li>Arrest</li>
+          <li>Trial</li>
+          <li>Appeals</li>
+        </ul>
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener">Rules of Criminal Procedure</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Case Summaries</a></li>
+        </ul>
+      `
+    },
+    statutoryConstruction: {
+      title: "Statutory Construction",
+      content: `
+        <p>Interpretation and application of laws.</p>
+        <h2>Key Principles</h2>
+        <ul>
+          <li>Literal Rule</li>
+          <li>Golden Rule</li>
+          <li>Mischief Rule</li>
+          <li>Purposive Approach</li>
+        </ul>
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener">Statutory Construction Book</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Important Cases</a></li>
+        </ul>
+      `
+    }
+  };
+
+  const subjectListEl = document.getElementById('subject-list');
+  const subjectContentEl = document.getElementById('subject-content');
+  const contentInnerEl = document.getElementById('content-inner');
+  const backBtn = document.getElementById('back-btn');
+
+  subjectListEl.addEventListener('click', e => {
+    if (e.target.matches('button.btn')) {
+      const subjectKey = e.target.getAttribute('data-subject');
+      if (subjects[subjectKey]) {
+        showSubject(subjectKey);
+      }
+    }
+  });
+
+  backBtn.addEventListener('click', () => {
+    subjectContentEl.style.display = 'none';
+    subjectListEl.style.display = 'grid';
+    document.title = 'Law Student Ako - Study Hub';
+  });
+
+  function showSubject(key) {
+    const subject = subjects[key];
+    contentInnerEl.innerHTML = `<h1>${subject.title}</h1>${subject.content}`;
+    subjectContentEl.style.display = 'block';
+    subjectListEl.style.display = 'none';
+    document.title = `${subject.title} - Law Student Ako`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
 
 </body>
 </html>
