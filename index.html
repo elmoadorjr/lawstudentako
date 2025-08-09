@@ -37,6 +37,12 @@
     top: 0;
     z-index: 200;
   }
+  .subtitle {
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.8;
+    margin-top: 0.25rem;
+  }
   #search-container {
     width: 100%;
     max-width: 900px;
@@ -63,7 +69,7 @@
   /* Button grid */
   #subject-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.75rem;
   }
   .btn {
@@ -85,11 +91,22 @@
       transform 0.15s ease;
     user-select: none;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 90px;
+    height: 120px;
     text-align: center;
     text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    position: relative;
+  }
+  .btn-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+  .btn-subtitle {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    font-weight: 400;
   }
   .btn:hover,
   .btn:focus-visible {
@@ -121,17 +138,54 @@
   #subject-content h1 {
     margin-bottom: 1rem;
     font-weight: 800;
+    color: #82A9D1;
   }
   #subject-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #A0C4E8;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #2A5AAF;
+    padding-bottom: 0.5rem;
+  }
+  #subject-content h3 {
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
+    color: #B8D0E8;
+  }
+  #subject-content ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  #subject-content li {
+    margin-bottom: 0.5rem;
   }
   #subject-content a {
     color: #82A9D1;
     text-decoration: none;
+    font-weight: 600;
   }
   #subject-content a:hover {
     text-decoration: underline;
+    color: #A0C4E8;
+  }
+  .note-box {
+    background: rgba(130, 169, 209, 0.1);
+    border: 1px solid #2A5AAF;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  .note-box h4 {
+    color: #82A9D1;
+    margin-bottom: 0.5rem;
+  }
+  .important {
+    background: rgba(255, 107, 107, 0.1);
+    border-color: #FF6B6B;
+  }
+  .important h4 {
+    color: #FFB3B3;
   }
   /* Back button */
   #back-btn {
@@ -158,21 +212,37 @@
     font-size: 1.2rem;
     display: none;
   }
+  .footer-info {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    color: #82A9D1;
+  }
   @media (max-width: 420px) {
     #subject-list {
       grid-template-columns: 1fr;
     }
     .btn {
-      height: 75px;
+      height: 100px;
       font-size: 1rem;
       padding: 1rem 1.5rem;
+    }
+    .btn-title {
+      font-size: 1rem;
+    }
+    .btn-subtitle {
+      font-size: 0.75rem;
     }
   }
 </style>
 </head>
 <body>
 
-<header>Law Student Ako</header>
+<header>
+  Law Student Ako
+  <div class="subtitle">Collaborative Study Hub</div>
+</header>
 
 <div id="search-container">
   <input type="search" id="search-input" placeholder="Search subjects..." aria-label="Search subjects" autocomplete="off" />
@@ -181,12 +251,30 @@
 <main>
   <!-- Subject Buttons -->
   <div id="subject-list" aria-live="polite" aria-atomic="true" aria-relevant="additions removals">
-    <button class="btn" data-subject="philosophyOfLaw">Philosophy of Law</button>
-    <button class="btn" data-subject="legalEthics">Basic Legal and Judicial Ethics</button>
-    <button class="btn" data-subject="criminalLawI">Criminal Law I</button>
-    <button class="btn" data-subject="constitutionalLawI">Constitutional Law I</button>
-    <button class="btn" data-subject="criminalProcedure">Criminal Procedure</button>
-    <button class="btn" data-subject="statutoryConstruction">Statutory Construction</button>
+    <button class="btn" data-subject="philosophyOfLaw">
+      <div class="btn-title">Philosophy of Law</div>
+      <div class="btn-subtitle">Jurisprudence & Legal Theory</div>
+    </button>
+    <button class="btn" data-subject="legalEthics">
+      <div class="btn-title">Legal Ethics</div>
+      <div class="btn-subtitle">Professional Responsibility</div>
+    </button>
+    <button class="btn" data-subject="criminalLawI">
+      <div class="btn-title">Criminal Law I</div>
+      <div class="btn-subtitle">Revised Penal Code</div>
+    </button>
+    <button class="btn" data-subject="constitutionalLawI">
+      <div class="btn-title">Constitutional Law I</div>
+      <div class="btn-subtitle">1987 Constitution</div>
+    </button>
+    <button class="btn" data-subject="criminalProcedure">
+      <div class="btn-title">Criminal Procedure</div>
+      <div class="btn-subtitle">Rules of Court</div>
+    </button>
+    <button class="btn" data-subject="statutoryConstruction">
+      <div class="btn-title">Statutory Construction</div>
+      <div class="btn-subtitle">Legal Interpretation</div>
+    </button>
   </div>
 
   <div id="no-results" role="alert" aria-live="assertive">No subjects match your search.</div>
@@ -196,6 +284,10 @@
     <button id="back-btn">← Back to Subjects</button>
     <div id="content-inner"></div>
   </section>
+
+  <div class="footer-info">
+    Created with ❤️ for law students • Share knowledge, succeed together
+  </div>
 </main>
 
 <script>
@@ -203,111 +295,573 @@
     philosophyOfLaw: {
       title: "Philosophy of Law",
       content: `
-        <p>Welcome to the Philosophy of Law subject page. Here, you can add your notes, summaries, important concepts, case law references, and study materials.</p>
-        <h2>Overview</h2>
-        <p>Put your subject overview here.</p>
-        <h2>Key Concepts</h2>
+        <p>Explore the fundamental questions about law, justice, and the nature of legal systems.</p>
+        
+        <div class="note-box important">
+          <h4>📚 Exam Focus Areas</h4>
+          <p>Natural Law vs. Legal Positivism, Hart vs. Dworkin debate, Filipino legal philosophy</p>
+        </div>
+
+        <h2>Key Concepts & Theories</h2>
+        <h3>Schools of Jurisprudence</h3>
         <ul>
-          <li>Jurisprudence</li>
-          <li>Legal Positivism</li>
-          <li>Natural Law</li>
-          <li>Legal Realism</li>
+          <li><strong>Natural Law Theory</strong> - Law derives from moral principles (Aquinas, Finnis)</li>
+          <li><strong>Legal Positivism</strong> - Law is what is posited by authorities (Austin, Hart)</li>
+          <li><strong>Legal Realism</strong> - Law is what courts actually do (Holmes, Llewellyn)</li>
+          <li><strong>Critical Legal Studies</strong> - Law serves dominant social groups</li>
         </ul>
-        <h2>Resources</h2>
+
+        <h3>Filipino Jurisprudential Thought</h3>
         <ul>
-          <li><a href="https://example.com/philosophy-of-law-textbook.pdf" target="_blank" rel="noopener">Philosophy of Law Textbook (PDF)</a></li>
-          <li><a href="https://example.com/important-cases.html" target="_blank" rel="noopener">Important Cases</a></li>
+          <li>Influence of Spanish Civil Law tradition</li>
+          <li>American Common Law integration</li>
+          <li>Indigenous legal concepts (Bayanihan, Kapamilyan)</li>
+        </ul>
+
+        <div class="note-box">
+          <h4>💡 Study Tip</h4>
+          <p>Create comparison charts between different schools. Practice with Supreme Court decisions that reflect philosophical approaches.</p>
+        </div>
+
+        <h2>Important Cases to Review</h2>
+        <ul>
+          <li>Angara v. Electoral Commission (1936) - Nature of Philippine legal system</li>
+          <li>Javellana v. Executive Secretary (1973) - Constitutional validity</li>
+          <li>Estrada v. Sandiganbayan (2001) - Rule of law principles</li>
+        </ul>
+
+        <h2>Study Resources</h2>
+        <ul>
+          <li><strong>Primary Texts:</strong> Agpalo's Jurisprudence, De Leon's Introduction to Law</li>
+          <li><strong>Supplementary:</strong> Hart's "The Concept of Law", Dworkin's "Taking Rights Seriously"</li>
+          <li><strong>Case Digests:</strong> Focus on philosophical reasoning in SC decisions</li>
+          <li><strong>Online:</strong> Chan Robles Virtual Law Library, Supreme Court E-Library</li>
         </ul>
       `
     },
     legalEthics: {
       title: "Basic Legal and Judicial Ethics",
       content: `
-        <p>Ethics is the backbone of the legal profession.</p>
-        <h2>Core Principles</h2>
+        <p>Master the ethical standards governing the legal profession in the Philippines.</p>
+        
+        <div class="note-box important">
+          <h4>⚖️ Bar Exam Essential</h4>
+          <p>Code of Professional Responsibility, Attorney-Client Privilege, Disciplinary Procedures</p>
+        </div>
+
+        <h2>Core Ethical Principles</h2>
         <ul>
-          <li>Integrity</li>
-          <li>Confidentiality</li>
-          <li>Professionalism</li>
-          <li>Accountability</li>
+          <li><strong>Canon 1:</strong> Uphold the Constitution and obey the laws</li>
+          <li><strong>Canon 2:</strong> Make legal services available in an efficient manner</li>
+          <li><strong>Canon 3:</strong> Respect the rules of procedure</li>
+          <li><strong>Canon 4:</strong> Encourage respect for law and legal processes</li>
         </ul>
-        <h2>Resources</h2>
+
+        <h3>Attorney-Client Relationship</h3>
         <ul>
-          <li><a href="#" target="_blank" rel="noopener">Code of Professional Responsibility</a></li>
-          <li><a href="#" target="_blank" rel="noopener">Judicial Ethics Guidelines</a></li>
+          <li>Privileged communication rules</li>
+          <li>Conflict of interest guidelines</li>
+          <li>Fee arrangements and limitations</li>
+          <li>Withdrawal from representation</li>
+        </ul>
+
+        <div class="note-box">
+          <h4>📝 Practice Questions</h4>
+          <p>Work through hypothetical scenarios involving ethical dilemmas. The Bar often tests practical application.</p>
+        </div>
+
+        <h2>Disciplinary Procedures</h2>
+        <h3>Grounds for Discipline</h3>
+        <ul>
+          <li>Deceit, malpractice, or gross misconduct</li>
+          <li>Conviction of crime involving moral turpitude</li>
+          <li>Violation of lawyer's oath</li>
+          <li>Willful disobedience of court orders</li>
+        </ul>
+
+        <h3>Types of Sanctions</h3>
+        <ul>
+          <li>Disbarment</li>
+          <li>Suspension</li>
+          <li>Reprimand</li>
+          <li>Fine</li>
+        </ul>
+
+        <h2>Key Supreme Court Cases</h2>
+        <ul>
+          <li>Regala v. Sandiganbayan (2000) - Attorney-client privilege</li>
+          <li>Hilado v. David (1996) - Professional competence</li>
+          <li>Marcelo v. Javier (2003) - Conflict of interest</li>
+        </ul>
+
+        <h2>Study Materials</h2>
+        <ul>
+          <li><strong>Code of Professional Responsibility</strong> - Complete text with annotations</li>
+          <li><strong>Agpalo's Legal Ethics</strong> - Comprehensive commentary</li>
+          <li><strong>IBP Guidelines</strong> - Integrated Bar of the Philippines rules</li>
+          <li><strong>SC Administrative Orders</strong> - Recent ethical guidelines</li>
         </ul>
       `
     },
     criminalLawI: {
       title: "Criminal Law I",
       content: `
-        <p>This covers crimes, penalties, and procedural rules.</p>
-        <h2>Topics</h2>
+        <p>Master the fundamentals of criminal law under the Revised Penal Code.</p>
+        
+        <div class="note-box important">
+          <h4>🔍 High-Yield Topics</h4>
+          <p>Elements of crimes, Stages of execution, Circumstances affecting liability, Penalties</p>
+        </div>
+
+        <h2>General Principles (Book One)</h2>
+        <h3>Application of Criminal Law</h3>
         <ul>
-          <li>Felonies and Misdemeanors</li>
-          <li>Justifying Circumstances</li>
-          <li>Exempting Circumstances</li>
-          <li>Criminal Liability</li>
+          <li>Territorial application (Art. 2)</li>
+          <li>Extraterritorial application (Art. 2)</li>
+          <li>Prospective application (Art. 3)</li>
+          <li>Active and passive personality principles</li>
         </ul>
-        <h2>Resources</h2>
+
+        <h3>Elements of Felonies</h3>
         <ul>
-          <li><a href="#" target="_blank" rel="noopener">Revised Penal Code</a></li>
-          <li><a href="#" target="_blank" rel="noopener">Jurisprudence Summaries</a></li>
+          <li><strong>Act/Omission</strong> - Voluntary act or culpable omission</li>
+          <li><strong>Punishable by law</strong> - Nullum crimen sine lege</li>
+          <li><strong>Criminal intent/negligence</strong> - Dolo or culpa</li>
+        </ul>
+
+        <div class="note-box">
+          <h4>🎯 Memory Aid</h4>
+          <p><strong>CRIMINAL</strong><br/>
+          C - Conspiracy<br/>
+          R - Reclusion<br/>
+          I - Intent (dolo)<br/>
+          M - Mitigating<br/>
+          I - Impossible crime<br/>
+          N - Negligence (culpa)<br/>
+          A - Aggravating<br/>
+          L - Light felony</p>
+        </div>
+
+        <h2>Stages of Execution</h2>
+        <ul>
+          <li><strong>Consummated</strong> - All elements present</li>
+          <li><strong>Frustrated</strong> - All elements performed but result didn't follow</li>
+          <li><strong>Attempted</strong> - Overt acts, directly connected, but not all elements performed</li>
+        </ul>
+
+        <h2>Circumstances Affecting Criminal Liability</h2>
+        <h3>Justifying Circumstances (Art. 11)</h3>
+        <ul>
+          <li>Self-defense, defense of relatives, defense of strangers</li>
+          <li>State of necessity</li>
+          <li>Fulfillment of duty or lawful exercise of right</li>
+        </ul>
+
+        <h3>Exempting Circumstances (Art. 12)</h3>
+        <ul>
+          <li>Imbecility or insanity</li>
+          <li>Minority under 15 years old</li>
+          <li>Accident without fault or intention</li>
+          <li>Compulsion of irresistible force</li>
+        </ul>
+
+        <h2>Penalties</h2>
+        <h3>Classification</h3>
+        <ul>
+          <li><strong>Principal penalties:</strong> Capital, afflictive, correctional, light</li>
+          <li><strong>Accessory penalties:</strong> Accompany principal penalties</li>
+          <li><strong>Indivisible:</strong> Death, reclusion perpetua</li>
+          <li><strong>Divisible:</strong> Can be divided into periods</li>
+        </ul>
+
+        <h2>Leading Cases</h2>
+        <ul>
+          <li>People v. Lagman (2007) - Elements of murder</li>
+          <li>People v. Dindo (2014) - Self-defense requirements</li>
+          <li>Ivler v. Modesto-San Pedro (2010) - Reckless imprudence</li>
+        </ul>
+
+        <h2>Study Strategy</h2>
+        <ul>
+          <li><strong>Codals:</strong> Memorize Articles 1-113 of RPC</li>
+          <li><strong>Case law:</strong> Focus on SC doctrines and recent decisions</li>
+          <li><strong>Bar questions:</strong> Practice problem-solving with fact patterns</li>
+          <li><strong>Charts:</strong> Create comparison tables for circumstances</li>
         </ul>
       `
     },
     constitutionalLawI: {
       title: "Constitutional Law I",
       content: `
-        <p>Explore the 1987 Constitution and landmark cases.</p>
-        <h2>Topics</h2>
+        <p>Study the fundamental law of the Philippines and its interpretation by the Supreme Court.</p>
+        
+        <div class="note-box important">
+          <h4>🇵🇭 Constitutional Foundations</h4>
+          <p>1987 Constitution, Bill of Rights, Separation of Powers, Judicial Review</p>
+        </div>
+
+        <h2>Historical Development</h2>
         <ul>
-          <li>Fundamental Rights</li>
-          <li>Separation of Powers</li>
-          <li>Judicial Review</li>
-          <li>Constitutional Amendments</li>
+          <li><strong>1935 Constitution</strong> - Commonwealth period, presidential system</li>
+          <li><strong>1973 Constitution</strong> - Martial Law era, parliamentary system</li>
+          <li><strong>1987 Constitution</strong> - Post-EDSA, restored democracy</li>
         </ul>
-        <h2>Resources</h2>
+
+        <h3>Key Features of 1987 Constitution</h3>
         <ul>
-          <li><a href="#" target="_blank" rel="noopener">1987 Philippine Constitution</a></li>
-          <li><a href="#" target="_blank" rel="noopener">Landmark Cases</a></li>
+          <li>Comprehensive Bill of Rights (Article III)</li>
+          <li>Presidential system with term limits</li>
+          <li>Independent constitutional bodies</li>
+          <li>Social justice and human rights provisions</li>
+        </ul>
+
+        <div class="note-box">
+          <h4>📖 Study Method</h4>
+          <p>Read the Constitution alongside landmark cases. Understand the historical context behind each provision.</p>
+        </div>
+
+        <h2>Fundamental Principles</h2>
+        <h3>Republican and Democratic State</h3>
+        <ul>
+          <li>Sovereignty resides in the people (Art. II, Sec. 1)</li>
+          <li>Civilian supremacy over military (Art. II, Sec. 3)</li>
+          <li>Rule of law principle</li>
+        </ul>
+
+        <h3>Separation of Powers</h3>
+        <ul>
+          <li><strong>Executive:</strong> President, Vice President, Cabinet</li>
+          <li><strong>Legislative:</strong> Senate and House of Representatives</li>
+          <li><strong>Judicial:</strong> Supreme Court and lower courts</li>
+        </ul>
+
+        <h2>Bill of Rights (Article III)</h2>
+        <h3>Due Process Clause</h3>
+        <ul>
+          <li>Substantive due process - life, liberty, property</li>
+          <li>Procedural due process - fair hearing, impartial tribunal</li>
+          <li>Equal protection clause - rational classification</li>
+        </ul>
+
+        <h3>Freedom of Speech and Expression</h3>
+        <ul>
+          <li>Clear and present danger test</li>
+          <li>Balancing test approach</li>
+          <li>Content-based vs. content-neutral regulations</li>
+          <li>Prior restraint doctrine</li>
+        </ul>
+
+        <div class="note-box important">
+          <h4>⚠️ Common Exam Topics</h4>
+          <p>Hierarchy of rights, Tests for constitutionality, Judicial review parameters, Emergency powers</p>
+        </div>
+
+        <h2>Landmark Constitutional Cases</h2>
+        <ul>
+          <li><strong>Javellana v. Executive Secretary (1973)</strong> - Constitutional validity</li>
+          <li><strong>Marcos v. Manglapus (1989)</strong> - Presidential powers</li>
+          <li><strong>Estrada v. Sandiganbayan (2001)</strong> - Presidential immunity</li>
+          <li><strong>David v. Arroyo (2006)</strong> - Emergency powers and calibrated preemptive response</li>
+          <li><strong>Poe-Llamanzares v. COMELEC (2016)</strong> - Natural-born citizenship</li>
+        </ul>
+
+        <h2>Tests for Constitutionality</h2>
+        <ul>
+          <li><strong>Facial challenge</strong> - Law invalid on its face</li>
+          <li><strong>As-applied challenge</strong> - Unconstitutional as applied</li>
+          <li><strong>Overbreadth doctrine</strong> - Sweeps too broadly</li>
+          <li><strong>Void-for-vagueness doctrine</strong> - Insufficient definiteness</li>
+        </ul>
+
+        <h2>Study Resources</h2>
+        <ul>
+          <li><strong>Primary:</strong> 1987 Constitution (complete text)</li>
+          <li><strong>Textbooks:</strong> Bernas, Cruz, Nachura commentaries</li>
+          <li><strong>Case law:</strong> Constitutional Law decided cases</li>
+          <li><strong>Online:</strong> Supreme Court website, ChanRobles database</li>
         </ul>
       `
     },
     criminalProcedure: {
       title: "Criminal Procedure",
       content: `
-        <p>Procedures to enforce criminal laws.</p>
-        <h2>Topics</h2>
+        <p>Learn the step-by-step process of criminal prosecution from investigation to final judgment.</p>
+        
+        <div class="note-box important">
+          <h4>⚖️ Procedural Essentials</h4>
+          <p>Rules of Court, Miranda rights, Search and seizure, Bail, Arraignment procedures</p>
+        </div>
+
+        <h2>Stages of Criminal Proceeding</h2>
+        <h3>1. Investigation Phase</h3>
         <ul>
-          <li>Investigation</li>
-          <li>Arrest</li>
-          <li>Trial</li>
-          <li>Appeals</li>
+          <li>Police investigation (custodial investigation)</li>
+          <li>Rights of suspects (Miranda doctrine)</li>
+          <li>Preliminary investigation by prosecutor</li>
+          <li>Filing of information or complaint</li>
         </ul>
-        <h2>Resources</h2>
+
+        <h3>2. Pre-Trial Phase</h3>
         <ul>
-          <li><a href="#" target="_blank" rel="noopener">Rules of Criminal Procedure</a></li>
-          <li><a href="#" target="_blank" rel="noopener">Case Summaries</a></li>
+          <li>Issuance of warrant of arrest</li>
+          <li>Arraignment (Rule 116)</li>
+          <li>Plea bargaining</li>
+          <li>Pre-trial conference (Rule 118)</li>
+        </ul>
+
+        <div class="note-box">
+          <h4>🔍 Miranda Rights (RA 7438)</h4>
+          <p>"You have the right to remain silent. Anything you say can be used against you. You have the right to an attorney. If you cannot afford one, one will be provided for you."</p>
+        </div>
+
+        <h2>Constitutional Rights in Criminal Procedure</h2>
+        <h3>Right Against Unreasonable Searches and Seizures</h3>
+        <ul>
+          <li>Search warrant requirements (Rule 126)</li>
+          <li>Exceptions: Consent, plain view, incident to arrest</li>
+          <li>Stop and frisk doctrine</li>
+          <li>Exclusionary rule</li>
+        </ul>
+
+        <h3>Right to Bail</h3>
+        <ul>
+          <li>Bailable vs. non-bailable offenses</li>
+          <li>Factors in fixing bail</li>
+          <li>Petition for bail hearing</li>
+          <li>Bail pending appeal</li>
+        </ul>
+
+        <h2>Trial Procedure</h2>
+        <h3>Order of Trial (Rule 119)</h3>
+        <ol>
+          <li>Prosecution presents evidence</li>
+          <li>Defense may file demurrer to evidence</li>
+          <li>Defense presents evidence</li>
+          <li>Rebuttal and sur-rebuttal</li>
+          <li>Submission of memoranda</li>
+          <li>Promulgation of judgment</li>
+        </ol>
+
+        <h3>Rules of Evidence</h3>
+        <ul>
+          <li>Burden of proof - proof beyond reasonable doubt</li>
+          <li>Presumption of innocence</li>
+          <li>Admissibility of evidence</li>
+          <li>Hearsay rule and exceptions</li>
+        </ul>
+
+        <div class="note-box important">
+          <h4>📊 Quantum of Evidence</h4>
+          <p>Criminal cases: Proof beyond reasonable doubt<br/>
+          Administrative cases: Substantial evidence<br/>
+          Civil cases: Preponderance of evidence</p>
+        </div>
+
+        <h2>Special Procedures</h2>
+        <ul>
+          <li><strong>Juvenile Justice Act (RA 9344)</strong> - Procedures for minors</li>
+          <li><strong>Anti-Violence Against Women Act (RA 9262)</strong> - Protection orders</li>
+          <li><strong>Cybercrime Prevention Act (RA 10175)</strong> - Digital evidence</li>
+          <li><strong>Plea bargaining in drugs cases</strong> - DOJ guidelines</li>
+        </ul>
+
+        <h2>Appeals and Post-Conviction Remedies</h2>
+        <ul>
+          <li>Ordinary appeal to Court of Appeals</li>
+          <li>Petition for review to Supreme Court</li>
+          <li>Motion for new trial or reconsideration</li>
+          <li>Petition for habeas corpus</li>
+        </ul>
+
+        <h2>Leading Cases</h2>
+        <ul>
+          <li>People v. Marti (1992) - Miranda rights application</li>
+          <li>People v. Aruta (1998) - Buy-bust operations</li>
+          <li>Stonehill v. Diokno (1967) - General warrants prohibition</li>
+          <li>People v. Jade (2000) - Chain of custody in drug cases</li>
+        </ul>
+
+        <h2>Study Tips</h2>
+        <ul>
+          <li><strong>Rules of Court:</strong> Focus on Rules 110-127</li>
+          <li><strong>Flowcharts:</strong> Create visual guides for procedures</li>
+          <li><strong>Timelines:</strong> Memorize periods for filing motions/appeals</li>
+          <li><strong>Practice:</strong> Work through hypothetical cases</li>
         </ul>
       `
     },
     statutoryConstruction: {
       title: "Statutory Construction",
       content: `
-        <p>Interpretation and application of laws.</p>
-        <h2>Key Principles</h2>
+        <p>Master the art and science of interpreting laws and legal documents.</p>
+        
+        <div class="note-box important">
+          <h4>📚 Core Principles</h4>
+          <p>Plain meaning rule, Legislative intent, Canons of construction, Judicial interpretation</p>
+        </div>
+
+        <h2>Fundamental Rules of Construction</h2>
+        <h3>Primary Rules</h3>
         <ul>
-          <li>Literal Rule</li>
-          <li>Golden Rule</li>
-          <li>Mischief Rule</li>
-          <li>Purposive Approach</li>
+          <li><strong>Verba legis (Plain meaning rule)</strong> - Words in their ordinary sense</li>
+          <li><strong>Ratio legis (Spirit of the law)</strong> - Legislative purpose and intent</li>
+          <li><strong>Occasio legis (Reason for the law)</strong> - Historical circumstances</li>
         </ul>
-        <h2>Resources</h2>
+
+        <h3>Cardinal Rules</h3>
         <ul>
-          <li><a href="#" target="_blank" rel="noopener">Statutory Construction Book</a></li>
-          <li><a href="#" target="_blank" rel="noopener">Important Cases</a></li>
+          <li>Statute must be read as a whole</li>
+          <li>Every part must be given meaning (ut magis valeat quam pereat)</li>
+          <li>Words and phrases have consistent meaning throughout</li>
+          <li>Construction should avoid absurd results</li>
         </ul>
+
+        <div class="note-box">
+          <h4>💡 Latin Maxims to Remember</h4>
+          <p><strong>Expressio unius est exclusio alterius</strong> - Expression of one excludes another<br/>
+          <strong>Ejusdem generis</strong> - Of the same kind<br/>
+          <strong>Noscitur a sociis</strong> - Known by its associates</p>
+        </div>
+
+        <h2>Canons of Construction</h2>
+        <h3>Textual Canons</h3>
+        <ul>
+          <li><strong>Plain meaning rule</strong> - Clear language needs no interpretation</li>
+          <li><strong>Golden rule</strong> - Avoid absurd consequences</li>
+          <li><strong>Mischief rule</strong> - Remedy the defect in law</li>
+          <li><strong>Last antecedent rule</strong> - Qualifying words refer to nearest antecedent</li>
+        </ul>
+
+        <h3>Structural Canons</h3>
+        <ul>
+          <li><strong>Whole act rule</strong> - Consider entire statute</li>
+          <li><strong>Consistent usage</strong> - Same words mean same thing</li>
+          <li><strong>Surplusage rule</strong> - Give meaning to every provision</li>
+          <li><strong>Harmonious construction</strong> - Reconcile conflicting provisions</li>
+        </ul>
+
+        <div class="note-box important">
+          <h4>🎯 Bar Exam Focus</h4>
+          <p>Practice applying canons to fact patterns. Know when to use strict vs. liberal construction.</p>
+        </div>
+
+        <h2>Aids to Construction</h2>
+        <h3>Intrinsic Aids (Within the statute)</h3>
+        <ul>
+          <li>Preamble and whereas clauses</li>
+          <li>Title and caption</li>
+          <li>Headings and marginal notes</li>
+          <li>Punctuation and arrangement</li>
+          <li>Context and associated words</li>
+        </ul>
+
+        <h3>Extrinsic Aids (Outside the statute)</h3>
+        <ul>
+          <li>Legislative history and debates</li>
+          <li>Committee reports and explanatory notes</li>
+          <li>Prior and subsequent legislation</li>
+          <li>Administrative interpretation</li>
+          <li>Judicial precedents</li>
+        </ul>
+
+        <h2>Types of Construction</h2>
+        <h3>Strict Construction</h3>
+        <ul>
+          <li>Criminal statutes (favor the accused)</li>
+          <li>Statutes in derogation of common law</li>
+          <li>Tax exemptions and penalties</li>
+          <li>Statutes creating liabilities</li>
+        </ul>
+
+        <h3>Liberal Construction</h3>
+        <ul>
+          <li>Remedial statutes</li>
+          <li>Social legislation</li>
+          <li>Statutes granting jurisdiction</li>
+          <li>Curative and validating acts</li>
+        </ul>
+
+        <div class="note-box">
+          <h4>📖 Case Study Approach</h4>
+          <p>Analyze how the Supreme Court applies construction principles. Look for reasoning patterns in statutory interpretation cases.</p>
+        </div>
+
+        <h2>Special Rules</h2>
+        <h3>Constitutional Construction</h3>
+        <ul>
+          <li>Presumption of constitutionality</li>
+          <li>Avoid constitutional questions when possible</li>
+          <li>Construe to uphold validity if reasonably possible</li>
+          <li>Balance competing constitutional rights</li>
+        </ul>
+
+        <h3>Administrative Construction</h3>
+        <ul>
+          <li>Contemporaneous construction by implementing agency</li>
+          <li>Long-continued administrative interpretation</li>
+          <li>Practical construction by those charged with execution</li>
+          <li>Deference to agency expertise</li>
+        </ul>
+
+        <h2>Leading Supreme Court Cases</h2>
+        <ul>
+          <li><strong>Caltex v. Palomar (1975)</strong> - Plain meaning rule application</li>
+          <li><strong>Philippine Blooming Mills v. Social Security System (1975)</strong> - Liberal construction of social legislation</li>
+          <li><strong>Commissioner of Internal Revenue v. Algue (1988)</strong> - Strict construction of tax laws</li>
+          <li><strong>Rabat v. Philippine National Bank (2000)</strong> - Harmonious construction</li>
+          <li><strong>Romualdez v. Sandiganbayan (2001)</strong> - Constitutional avoidance</li>
+        </ul>
+
+        <h2>Practical Applications</h2>
+        <h3>Contract Interpretation</h3>
+        <ul>
+          <li>Plain meaning of contractual terms</li>
+          <li>Intent of contracting parties</li>
+          <li>Custom and usage in trade</li>
+          <li>Contra proferentem rule</li>
+        </ul>
+
+        <h3>Constitutional Provisions</h3>
+        <ul>
+          <li>Broad construction for grants of power</li>
+          <li>Strict construction for limitations</li>
+          <li>Historical context consideration</li>
+          <li>Contemporary understanding</li>
+        </ul>
+
+        <div class="note-box important">
+          <h4>⚖️ Exam Strategy</h4>
+          <p>Step 1: Apply plain meaning rule<br/>
+          Step 2: If ambiguous, look to legislative intent<br/>
+          Step 3: Use appropriate canons<br/>
+          Step 4: Consider policy implications</p>
+        </div>
+
+        <h2>Study Materials</h2>
+        <ul>
+          <li><strong>Primary:</strong> Agpalo's Statutory Construction</li>
+          <li><strong>Secondary:</strong> Ruben Agpalo's Legal and Judicial Ethics</li>
+          <li><strong>Cases:</strong> Cruz's Philippine Political Law</li>
+          <li><strong>Reference:</strong> Black's Law Dictionary for legal terms</li>
+          <li><strong>Practice:</strong> Bar exam questions on statutory construction</li>
+        </ul>
+
+        <h2>Memory Techniques</h2>
+        <div class="note-box">
+          <h4>🧠 CONSTRUCTION Mnemonic</h4>
+          <p>C - Clear and plain meaning<br/>
+          O - Occasio legis (reason for law)<br/>
+          N - Noscitur a sociis<br/>
+          S - Spirit of the law<br/>
+          T - Title and context<br/>
+          R - Ratio legis (legislative intent)<br/>
+          U - Ut magis valeat quam pereat<br/>
+          C - Consistent usage<br/>
+          T - Textual and structural canons<br/>
+          I - Intrinsic and extrinsic aids<br/>
+          O - Occasio legis<br/>
+          N - No surplusage rule</p>
+        </div>
       `
     }
   };
@@ -364,8 +918,9 @@
 
   // Event listeners
   subjectListEl.addEventListener('click', e => {
-    if (e.target.matches('button.btn')) {
-      const subjectKey = e.target.getAttribute('data-subject');
+    if (e.target.matches('button.btn') || e.target.closest('button.btn')) {
+      const button = e.target.matches('button.btn') ? e.target : e.target.closest('button.btn');
+      const subjectKey = button.getAttribute('data-subject');
       if (subjects[subjectKey]) {
         showSubject(subjectKey);
       }
@@ -376,9 +931,14 @@
 
   searchInput.addEventListener('input', filterSubjects);
 
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (subjectContentEl.style.display === 'block') {
+        showSubjectList();
+      }
+    }
+  });
+
   // Initialize
   showSubjectList();
-</script>
-
-</body>
-</html>
