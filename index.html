@@ -16,7 +16,7 @@
     background: linear-gradient(135deg, #0B2545 0%, #162F6C 100%);
     color: #E0E6F1;
     min-height: 100vh;
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,10 +32,29 @@
     font-size: 1.75rem;
     color: #82A9D1;
     letter-spacing: 1.5px;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 200;
+  }
+  #search-container {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 2rem;
+  }
+  #search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0B2545;
+    outline-offset: 2px;
+    box-shadow: inset 2px 2px 6px #163a72, inset -2px -2px 6px #1d4fc8;
+  }
+  #search-input::placeholder {
+    color: #607dba;
   }
   main {
     width: 100%;
@@ -72,13 +91,15 @@
     text-align: center;
     text-shadow: 0 1px 3px rgba(0,0,0,0.7);
   }
-  .btn:hover {
+  .btn:hover,
+  .btn:focus-visible {
     background: linear-gradient(145deg, #1B3A6E, #2A5AAF);
     box-shadow:
       6px 6px 12px rgba(0, 0, 0, 0.8),
       inset -1px -1px 4px rgba(255, 255, 255, 0.15),
       inset 1px 1px 4px rgba(0, 0, 0, 0.5);
     transform: translateY(-3px);
+    outline: none;
   }
   .btn:active {
     transform: translateY(1px);
@@ -128,6 +149,15 @@
   #back-btn:hover {
     background: #1B3A6E;
   }
+  /* No results message */
+  #no-results {
+    color: #FF6B6B;
+    text-align: center;
+    font-weight: 700;
+    padding: 2rem 1rem;
+    font-size: 1.2rem;
+    display: none;
+  }
   @media (max-width: 420px) {
     #subject-list {
       grid-template-columns: 1fr;
@@ -144,9 +174,13 @@
 
 <header>Law Student Ako</header>
 
+<div id="search-container">
+  <input type="search" id="search-input" placeholder="Search subjects..." aria-label="Search subjects" autocomplete="off" />
+</div>
+
 <main>
   <!-- Subject Buttons -->
-  <div id="subject-list">
+  <div id="subject-list" aria-live="polite" aria-atomic="true" aria-relevant="additions removals">
     <button class="btn" data-subject="philosophyOfLaw">Philosophy of Law</button>
     <button class="btn" data-subject="legalEthics">Basic Legal and Judicial Ethics</button>
     <button class="btn" data-subject="criminalLawI">Criminal Law I</button>
@@ -154,6 +188,8 @@
     <button class="btn" data-subject="criminalProcedure">Criminal Procedure</button>
     <button class="btn" data-subject="statutoryConstruction">Statutory Construction</button>
   </div>
+
+  <div id="no-results" role="alert" aria-live="assertive">No subjects match your search.</div>
 
   <!-- Dynamic Subject Content -->
   <section id="subject-content" style="display:none;">
@@ -280,7 +316,53 @@
   const subjectContentEl = document.getElementById('subject-content');
   const contentInnerEl = document.getElementById('content-inner');
   const backBtn = document.getElementById('back-btn');
+  const searchInput = document.getElementById('search-input');
+  const noResultsEl = document.getElementById('no-results');
 
+  // Show subject content
+  function showSubject(key) {
+    const subject = subjects[key];
+    contentInnerEl.innerHTML = `<h1>${subject.title}</h1>${subject.content}`;
+    subjectContentEl.style.display = 'block';
+    subjectListEl.style.display = 'none';
+    noResultsEl.style.display = 'none';
+    document.title = `${subject.title} - Law Student Ako`;
+    searchInput.value = '';
+    searchInput.style.display = 'none';
+    backBtn.focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Show subject list
+  function showSubjectList() {
+    subjectContentEl.style.display = 'none';
+    subjectListEl.style.display = 'grid';
+    noResultsEl.style.display = 'none';
+    document.title = 'Law Student Ako - Study Hub';
+    searchInput.style.display = 'block';
+    searchInput.focus();
+    filterSubjects();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Filter subjects based on search input
+  function filterSubjects() {
+    const filter = searchInput.value.trim().toLowerCase();
+    const buttons = subjectListEl.querySelectorAll('button.btn');
+    let visibleCount = 0;
+    buttons.forEach(button => {
+      const text = button.textContent.toLowerCase();
+      if (text.includes(filter)) {
+        button.style.display = 'flex';
+        visibleCount++;
+      } else {
+        button.style.display = 'none';
+      }
+    });
+    noResultsEl.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  // Event listeners
   subjectListEl.addEventListener('click', e => {
     if (e.target.matches('button.btn')) {
       const subjectKey = e.target.getAttribute('data-subject');
@@ -290,20 +372,12 @@
     }
   });
 
-  backBtn.addEventListener('click', () => {
-    subjectContentEl.style.display = 'none';
-    subjectListEl.style.display = 'grid';
-    document.title = 'Law Student Ako - Study Hub';
-  });
+  backBtn.addEventListener('click', showSubjectList);
 
-  function showSubject(key) {
-    const subject = subjects[key];
-    contentInnerEl.innerHTML = `<h1>${subject.title}</h1>${subject.content}`;
-    subjectContentEl.style.display = 'block';
-    subjectListEl.style.display = 'none';
-    document.title = `${subject.title} - Law Student Ako`;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  searchInput.addEventListener('input', filterSubjects);
+
+  // Initialize
+  showSubjectList();
 </script>
 
 </body>
