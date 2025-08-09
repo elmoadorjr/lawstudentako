@@ -19,22 +19,24 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
     }
     a {
-      color: #82A9D1; /* lighter blue links */
+      color: #82A9D1;
       text-decoration: none;
     }
     a:hover {
       text-decoration: underline;
     }
-
-    /* Header */
     header {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      padding: 1rem 2rem;
-      background: #09203F; /* darker navy for header */
+      padding: 1rem 0 2rem;
+      background: #09203F;
+      width: 100%;
       border-bottom: 1px solid #183A72;
       position: sticky;
       top: 0;
@@ -42,118 +44,45 @@
     }
     .logo {
       font-weight: 700;
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       color: #82A9D1;
     }
-    nav a {
-      margin-left: 2rem;
-      font-weight: 600;
-      font-size: 1rem;
-    }
-
-    /* Hero */
-    .hero {
-      text-align: center;
-      padding: 4rem 1rem 3rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-      color: #E0E6F1;
-    }
-    .hero p {
-      font-size: 1.125rem;
-      margin-bottom: 2rem;
-      color: #BCCCE0; /* softer secondary text */
-    }
-    .hero-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1.25rem;
-      flex-wrap: wrap;
+    main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 800px;
     }
     .btn {
       background: #2854A3;
       color: #fff;
-      padding: 1rem 2rem;
+      padding: 1.5rem 2rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 1.125rem;
       cursor: pointer;
       transition: background 0.3s ease;
-      text-align: center;
-      min-width: 130px;
       user-select: none;
+      text-align: center;
+      box-shadow: 0 3px 6px rgb(0 0 0 / 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
     }
     .btn:hover {
       background: #1B3A6E;
     }
 
-    /* Main content */
-    main {
-      flex-grow: 1;
-      padding: 2rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    /* Subjects list */
-    .subjects-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-    .subject-card {
-      background: #143A74;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
-      cursor: pointer;
-      transition: box-shadow 0.3s ease;
-    }
-    .subject-card:hover {
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.7);
-    }
-    .subject-title {
-      font-weight: 700;
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-      color: #82A9D1;
-    }
-    .subject-desc {
-      font-size: 0.9rem;
-      color: #BCCCE0;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      font-size: 0.9rem;
-      color: #AFC3E8;
-      border-top: 1px solid #183A72;
-      background: #09203F;
-    }
-    footer a {
-      color: #82A9D1;
-      font-weight: 600;
-      margin-left: 0.3rem;
-    }
-
-    /* Responsive nav */
-    @media (max-width: 600px) {
-      nav a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
+    @media (max-width: 400px) {
+      main {
+        grid-template-columns: 1fr;
       }
-      .hero-buttons {
-        flex-direction: column;
-        gap: 1rem;
+      .btn {
+        height: 70px;
+        font-size: 1rem;
       }
     }
   </style>
@@ -162,82 +91,16 @@
 
 <header>
   <div class="logo">LawStudyHub</div>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#subjects">Subjects</a>
-    <a href="#cases">Cases</a>
-    <a href="#resources">Resources</a>
-    <a href="#about">About</a>
-  </nav>
 </header>
 
-<section class="hero">
-  <h1>Study smarter. Pass harder.</h1>
-  <p>All your law essentials in one place.</p>
-  <div class="hero-buttons">
-    <button class="btn" onclick="scrollToSection('subjects')">Subjects</button>
-    <button class="btn" onclick="scrollToSection('cases')">Case Summaries</button>
-    <button class="btn" onclick="scrollToSection('resources')">Resources</button>
-    <button class="btn" onclick="alert('Search coming soon!')">Quick Search</button>
-  </div>
-</section>
-
 <main>
-  <section id="subjects">
-    <h2>Subjects</h2>
-    <div class="subjects-list">
-      <div class="subject-card" tabindex="0">
-        <div class="subject-title">Criminal Law</div>
-        <div class="subject-desc">Understand crimes, penalties, and procedural rules.</div>
-      </div>
-      <div class="subject-card" tabindex="0">
-        <div class="subject-title">Constitutional Law</div>
-        <div class="subject-desc">Explore the 1987 Constitution and landmark cases.</div>
-      </div>
-      <div class="subject-card" tabindex="0">
-        <div class="subject-title">Civil Law</div>
-        <div class="subject-desc">Covers obligations, contracts, property, and persons.</div>
-      </div>
-      <div class="subject-card" tabindex="0">
-        <div class="subject-title">Labor Law</div>
-        <div class="subject-desc">Rights and duties between employers and employees.</div>
-      </div>
-      <div class="subject-card" tabindex="0">
-        <div class="subject-title">Remedial Law</div>
-        <div class="subject-desc">Procedures to enforce substantive rights.</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="cases" style="margin-top: 4rem;">
-    <h2>Case Summaries</h2>
-    <p>Coming soon: landmark case summaries and briefs.</p>
-  </section>
-
-  <section id="resources" style="margin-top: 4rem;">
-    <h2>Resources</h2>
-    <p>Coming soon: links to codes, jurisprudence, and more.</p>
-  </section>
-
-  <section id="about" style="margin-top: 4rem;">
-    <h2>About</h2>
-    <p>Built for law students by Elmo. <a href="https://github.com/elmoadorjr/lawstudentako" target="_blank" rel="noopener noreferrer">GitHub Repo</a></p>
-  </section>
+  <button class="btn" onclick="alert('Philosophy of Law page coming soon')">Philosophy of Law</button>
+  <button class="btn" onclick="alert('Basic Legal and Judicial Ethics page coming soon')">Basic Legal and Judicial Ethics</button>
+  <button class="btn" onclick="alert('Criminal Law I page coming soon')">Criminal Law I</button>
+  <button class="btn" onclick="alert('Constitutional Law I page coming soon')">Constitutional Law I</button>
+  <button class="btn" onclick="alert('Criminal Procedure page coming soon')">Criminal Procedure</button>
+  <button class="btn" onclick="alert('Statutory Construction page coming soon')">Statutory Construction</button>
 </main>
-
-<footer>
-  Built for law students by Elmo.<a href="https://github.com/elmoadorjr/lawstudentako" target="_blank" rel="noopener noreferrer"> GitHub</a>
-</footer>
-
-<script>
-  function scrollToSection(id) {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-</script>
 
 </body>
 </html>
-
